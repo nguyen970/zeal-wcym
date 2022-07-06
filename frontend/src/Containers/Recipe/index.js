@@ -1,30 +1,48 @@
 import * as React from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { LinearProgress } from '@material-ui/core';
-import styled from "styled-components"
 import Ingredients from '../../components/recipe/Ingredients';
-
-const StyledContainer = styled.div`
-    padding: 3rem;
-`
-const InstructionsWrapper = styled.div`
-    padding: 3rem 0;
-`
+import { RecipeWrapper, InstructionsWrapper } from "./styles"
+import {getRecipeById} from "../../actions"
 
 export default function Recipe() {
+    const dispatch = useDispatch();
     const  {recipe, isLoading} = useSelector((state) => state.recipe );
-    console.log(recipe);
+
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search)
+        const id = params.get('id');
+        if (id) {
+            dispatch(getRecipeById(id));
+        }
+    },[]);
+
+    useEffect(() => {
+        if (recipe) {
+            const params = new URLSearchParams(window.location.search)
+            const id = params.get('id');
+            let newUrl = '';
+            if (id) {
+                newUrl =  window.location.href.replace(`id=${id}`, `id=${recipe._id}`);
+            } else {
+                newUrl = window.location.href + `&id=${recipe._id}`;
+            }
+            window.history.pushState({}, '', newUrl);
+        }
+    }, [recipe]);
+
     return (
-        <StyledContainer>
+        <RecipeWrapper>
             {isLoading && <LinearProgress />}
             {recipe && 
                 <>
-                    <h4>{recipe[0].name}</h4>  
-                    <Ingredients ingredients={recipe[0].ingredients}/>
-                    <InstructionsWrapper>{recipe[0].instructions}</InstructionsWrapper>
+                    <h4>{recipe.name}</h4>  
+                    <Ingredients ingredients={recipe.ingredients}/>
+                    <InstructionsWrapper>{recipe.instructions}</InstructionsWrapper>
                 </>
             }
             {!recipe && !isLoading && <div>Please select a recipe to get started!</div>}
-        </StyledContainer>
+        </RecipeWrapper>
     )
 }

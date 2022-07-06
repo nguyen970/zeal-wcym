@@ -34,7 +34,7 @@ export default function IngredientsSelector(props) {
                 key={ingredient}
                 control={
                 <Checkbox
-                    checked={ingredients.includes(ingredient)}
+                    checked={ingredients?.includes(ingredient)}
                     onChange={(event) => handleOnChange(ingredient, event.target.checked)}
                     value={ingredient}
                 />

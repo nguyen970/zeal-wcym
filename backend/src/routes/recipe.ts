@@ -12,6 +12,6 @@ export const recipeMiddleware = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  const foundRecipe = await RecipeModel.find({_id: req.params.id});
+  const foundRecipe = await RecipeModel.findOne({_id: req.params.id});
   res.send(foundRecipe);
 }

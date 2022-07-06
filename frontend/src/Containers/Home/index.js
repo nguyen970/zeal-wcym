@@ -11,11 +11,34 @@ import RecipesList from '../../components/home/RecipesLIst';
 
 export default function Home(recipes, isLoading) {
   const dispatch = useDispatch();
-  const [recipeName, setTerm] = useState('');
+  const [recipeName, setRecipeName] = useState('');
   const [ingredients, setIngredients] = useState(['milk']);
 
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const ingredientsFromParams = params.get('ingredients');
+    const recipeNameFromParams = params.get('name');
+    setRecipeName(recipeNameFromParams || '');
+    setIngredients(ingredientsFromParams?.split(',') || []);
+  },[]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const id = params.get('id');
+    let newUrl = window.location.origin + '?';
+
+    if (id) {
+      newUrl += `id=${id}${ingredients.length || recipeName ? '&' : ''}`;
+    }
+    if (ingredients.length) {
+      newUrl += `ingredients=${ingredients}${recipeName ? '&' : ''}`;
+    }
+    if (recipeName) {
+      newUrl += `name=${recipeName}`;
+    }
+
     dispatch(searchRecipes(recipeName, ingredients));
+    window.history.pushState({}, '', newUrl);
   }, [recipeName, ingredients]);
 
   const handleRecipeSelected = (id) => {
@@ -26,7 +49,7 @@ export default function Home(recipes, isLoading) {
     <HomeWrapper>
       <FlexContainer>
         <SearchByName 
-          onChange={(value) => setTerm(value)}
+          onChange={(value) => setRecipeName(value)}
           name={recipeName}
         />
         <IngredientsSelector 
