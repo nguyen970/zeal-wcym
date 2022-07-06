@@ -9,7 +9,7 @@ const appStartup = async (): Promise<void> => {
   const app = express()
   // add parsers for the body
   app.use(bodyParser.json())
-  app.use(bodyParser.urlencoded({ extended: true }))
+  app.use(bodyParser.urlencoded({ extended: false }))
   // create our routes
   app.post("/api/search", searchMiddleware)
   app.get("/api/recipe/:id", recipeMiddleware)

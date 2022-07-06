@@ -6,5 +6,12 @@ export const HomeWrapper = styled.div`
   display: flex;
   flex-flow: column;
   margin: auto;
-  padding: 8px;
+  padding: 3rem 0;
+`
+export const FlexContainer = styled.div`
+  display: flex;
+`
+
+export const CenteredDiv = styled.div`
+  text-align: center;
 `
