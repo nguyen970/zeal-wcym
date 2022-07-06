@@ -19,26 +19,23 @@ export default function SearchByName(props) {
     }, [searchText]);
 
     const handleSearch = (event) => {
-        setSearchText(event.target.value);
-        if (event.target.value) {
-            debouncedSearch(searchText);
+        const newSearchText = event.target.value;
+        setSearchText(newSearchText);
+        if (newSearchText) {
+            debouncedSearch(newSearchText);
         } else {
             onChange('');
         }      
     };
     
     return (
-        <>
-            {!isLoading && 
-                <TextField
-                    autoFocus={true}
-                    onChange={handleSearch}
-                    value={searchText}
-                    variant="outlined"
-                    style={{width: 400, flex: 'none'}}
-                    placeholder="Search for recipe name"
-                />
-            }
-        </>
+        <TextField
+            autoFocus={true}
+            onChange={handleSearch}
+            value={searchText}
+            variant="outlined"
+            style={{width: 400, flex: 'none'}}
+            placeholder="Search for recipe name"
+        />
     );
 }
