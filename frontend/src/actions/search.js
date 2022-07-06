@@ -28,9 +28,8 @@ export const executeSearch = async (name, ingredients) => {
   return searchResults
 }
 
-// TODO: fix action
 export const searchRecipes = (name, ingredients) => {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(fetchingSearch())
     return executeSearch(name, ingredients)
       .then((res) => dispatch(fetchedSearch(res)))

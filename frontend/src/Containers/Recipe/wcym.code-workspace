@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": "../../../.."
+		}
+	],
+	"settings": {
+		"typescript.tsdk": "admin/node_modules/typescript/lib",
+		"tslint.exclude": "src/admin-react/**/*"
+	}
+}
